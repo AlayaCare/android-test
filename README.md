@@ -27,7 +27,7 @@ The provided files can be used as a guideline, but add whatever other files you 
 
 * TASK 1: Create a data source for the notes:
   * create a note model that can capture the text entered by a user and the date the user created the note
-  * create a mock API to return a list of fake notes asynchronously
+  * create a simple mock data source to return a list of fake notes asynchronously
 
 * TASK 2: Display a list of notes in the note activity:
   * use the mock API to populate the list
@@ -44,7 +44,7 @@ The provided files can be used as a guideline, but add whatever other files you 
 
 * OPTIONAL Task 5: Save, edit and delete notes
   * create a database to persist the notes
-  * remove your mock API and save new notes to your database
+  * remove your mock data source and save new notes to your database
   * add an option to edit and delete a note from the list
 
 
