@@ -22,7 +22,7 @@ The repo contains a skeleton Android application created using Android Studio 2.
 ### Instructions
 The goal of this exercise is to create a very simple note app by following the tasks below. 
 Code should be clear, easy to read, and modular. 
-First fork this repository, then commit your changes and create a pull request when you're done (See [How to submit your work?](#how-to-submit-your-work))
+First fork this repository, then commit your changes and create a pull request when you're done (See [How to submit your work?](#how-to-submit-your-work)).
 
 * TASK 1: Create a data source for the notes:
   * Add non-null `text` and non-null `date` fields to the note model
