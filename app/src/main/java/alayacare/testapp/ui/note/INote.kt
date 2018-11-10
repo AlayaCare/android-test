@@ -12,5 +12,6 @@ interface INote {
 
     interface Presenter : IPresenter<View> {
         fun loadNotes()
+        fun addNote(note: Note)
     }
 }

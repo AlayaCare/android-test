@@ -21,4 +21,7 @@ object MockNotes {
         notesList.add(Note("Note 6", Date().time))
     }
 
+    fun addNote(note: Note) {
+        notesList.add(note)
+    }
 }
