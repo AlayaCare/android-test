@@ -8,6 +8,8 @@ interface INote {
 
     interface View : IView {
         fun showNotes(notes: ArrayList<Note>)
+        fun showNoNotes()
+        fun showSearchNoResult()
     }
 
     interface Presenter : IPresenter<View> {

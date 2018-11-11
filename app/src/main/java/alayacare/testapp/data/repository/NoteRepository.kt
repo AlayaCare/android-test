@@ -13,4 +13,7 @@ object NoteRepository {
 
     // The delay is to create an asynchronous effect
     fun getNotes(): Observable<ArrayList<Note>> = Observable.just(MockNotes.notesList).delay(1, TimeUnit.SECONDS)
+
+    fun searchNote(text: String): Observable<List<Note>> = Observable.just(MockNotes.notesList.filter { it.note.contains(text) }).delay(1, TimeUnit.SECONDS)
+
 }

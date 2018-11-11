@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:shape="rectangle">
+    <solid android:color="@android:color/white" />
+    <corners
+        android:bottomLeftRadius="@dimen/search_bar_radius"
+        android:bottomRightRadius="@dimen/search_bar_radius"
+        android:topLeftRadius="@dimen/search_bar_radius"
+        android:topRightRadius="@dimen/search_bar_radius" />
+</shape>

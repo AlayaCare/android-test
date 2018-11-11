@@ -1,7 +1,6 @@
 package alayacare.testapp.data.mock
 
 import alayacare.testapp.data.model.Note
-import java.util.Date
 
 /**
  * Singleton MockNotes to hold Notes data in memory
@@ -13,12 +12,13 @@ object MockNotes {
     var notesList = ArrayList<Note>()
 
     init {
-        notesList.add(Note("Note 1", Date().time))
-        notesList.add(Note("Note 2", Date().time))
-        notesList.add(Note("Note 3", Date().time))
-        notesList.add(Note("Note 4", Date().time))
-        notesList.add(Note("Note 5", Date().time))
-        notesList.add(Note("Note 6", Date().time))
+        // Uncomment if you want to pre populate the list
+//        notesList.add(Note("Note 1", Date().time))
+//        notesList.add(Note("Note 2", Date().time))
+//        notesList.add(Note("Note 3", Date().time))
+//        notesList.add(Note("Note 4", Date().time))
+//        notesList.add(Note("Note 5", Date().time))
+//        notesList.add(Note("Note 6", Date().time))
     }
 
     fun addNote(note: Note) {
