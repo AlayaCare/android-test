@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit
 
 class NoteActivity : BaseActivity(), INote.View {
 
-    private val mPresenter = NotePresenter(NoteRepository)
+    private lateinit var mPresenter: NotePresenter
     private val mAdapter = NoteAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,12 +28,14 @@ class NoteActivity : BaseActivity(), INote.View {
 
         activityProgressBar = progress_bar_notes
 
+        mPresenter = NotePresenter(NoteRepository(application))
+        mPresenter.attachView(this)
+
+
         recycler_view_notes.layoutManager = LinearLayoutManager(this)
         recycler_view_notes.adapter = mAdapter
 
         fab_add_note.setOnClickListener { addNote() }
-
-        mPresenter.attachView(this)
     }
 
     override fun onResume() {

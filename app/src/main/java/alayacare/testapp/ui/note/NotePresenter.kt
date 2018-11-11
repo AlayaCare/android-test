@@ -30,7 +30,7 @@ class NotePresenter(private val noteRepository: NoteRepository) : INote.Presente
                 .subscribeOn(Schedulers.newThread())
                 .unsubscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<ArrayList<Note>> {
+                .subscribe(object : Observer<List<Note>> {
                     override fun onComplete() {
                         mView?.hideProgressBar()
                     }
@@ -40,11 +40,11 @@ class NotePresenter(private val noteRepository: NoteRepository) : INote.Presente
                         mView?.showProgressBar()
                     }
 
-                    override fun onNext(notes: ArrayList<Note>) {
+                    override fun onNext(notes: List<Note>) {
                         if (notes.isEmpty()) {
                             mView?.showNoNotes()
                         } else {
-                            mView?.showNotes(notes)
+                            mView?.showNotes(notes as ArrayList<Note>)
                         }
                     }
 

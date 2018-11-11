@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_add_note.*
 
 class AddNoteActivity : BaseActivity(), IAddNote.View {
 
-    private val mPresenter = AddNotePresenter(NoteRepository)
+    private lateinit var mPresenter: AddNotePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +20,7 @@ class AddNoteActivity : BaseActivity(), IAddNote.View {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
 
+        mPresenter = AddNotePresenter(NoteRepository(application))
         mPresenter.attachView(this)
     }
 
