@@ -12,5 +12,5 @@ object NoteRepository {
     }
 
     // The delay is to create an asynchronous effect
-    fun getNotes(): Observable<ArrayList<Note>> = Observable.just(MockNotes.notesList).delay(5, TimeUnit.SECONDS)
+    fun getNotes(): Observable<ArrayList<Note>> = Observable.just(MockNotes.notesList).delay(1, TimeUnit.SECONDS)
 }

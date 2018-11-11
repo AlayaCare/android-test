@@ -8,4 +8,8 @@ interface IView {
     fun showProgressBar()
 
     fun hideProgressBar()
+
+    fun showErrorMessage(errorMessage: String?)
+
+    fun showErrorMessage(resId: Int)
 }

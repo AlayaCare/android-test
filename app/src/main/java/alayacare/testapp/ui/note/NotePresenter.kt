@@ -49,8 +49,4 @@ class NotePresenter(private val noteRepository: NoteRepository) : INote.Presente
                 })
     }
 
-    override fun addNote(note: Note) {
-        noteRepository.addNote(note)
-    }
-
 }

@@ -4,8 +4,9 @@ import alayacare.testapp.utils.hide
 import alayacare.testapp.utils.show
 import android.support.v7.app.AppCompatActivity
 import android.widget.ProgressBar
+import android.widget.Toast
 
-open class BaseActivity: AppCompatActivity(), IView {
+open class BaseActivity : AppCompatActivity(), IView {
 
     var activityProgressBar: ProgressBar? = null
 
@@ -15,6 +16,14 @@ open class BaseActivity: AppCompatActivity(), IView {
 
     override fun hideProgressBar() {
         activityProgressBar?.hide()
+    }
+
+    override fun showErrorMessage(errorMessage: String?) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+    }
+
+    override fun showErrorMessage(resId: Int) {
+        showErrorMessage(getString(resId))
     }
 
 }

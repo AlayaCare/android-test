@@ -11,6 +11,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.base.BaseActivity" />
+        <activity android:name=".ui.addnote.NoteActivity" />
+        <activity android:name=".ui.addnote.AddNoteActivity" />
     </application>
 
 </manifest>

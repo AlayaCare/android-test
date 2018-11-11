@@ -3,7 +3,9 @@ package alayacare.testapp.ui.note
 import alayacare.testapp.R
 import alayacare.testapp.data.model.Note
 import alayacare.testapp.data.repository.NoteRepository
+import alayacare.testapp.ui.addnote.AddNoteActivity
 import alayacare.testapp.ui.base.BaseActivity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_note.*
@@ -23,12 +25,18 @@ class NoteActivity : BaseActivity(), INote.View {
         recycler_view_notes.layoutManager = LinearLayoutManager(this)
         recycler_view_notes.adapter = mAdapter
 
+        fab_add_note.setOnClickListener { addNote() }
+
         mPresenter.attachView(this)
+    }
 
-        // Temporary faking the insertion of notes
-        repeat(10) { mPresenter.addNote(Note("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec gravida, metus in pellentesque ullamcorper, quam est venenatis massa, sed tincidunt turpis dui sed nibh. Curabitur varius ante felis, non lacinia mi porta et. ", Date().time)) }
-
+    override fun onResume() {
+        super.onResume()
         mPresenter.loadNotes()
+    }
+
+    private fun addNote() {
+        startActivity(Intent(this, AddNoteActivity::class.java))
     }
 
     override fun showNotes(notes: ArrayList<Note>) {

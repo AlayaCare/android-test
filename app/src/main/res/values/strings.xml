@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Notes</string>
+
+    <!-- Add note -->
+    <string name="add_note_title">Add note</string>
+    <string name="add_note">Add your note here</string>
+    <string name="save_note">Save</string>
+    <string name="error_note_empty">Note can\'t be empty</string>
+
 </resources>

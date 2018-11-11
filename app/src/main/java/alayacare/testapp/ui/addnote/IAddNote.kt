@@ -1,16 +1,15 @@
-package alayacare.testapp.ui.note
+package alayacare.testapp.ui.addnote
 
-import alayacare.testapp.data.model.Note
 import alayacare.testapp.ui.base.IPresenter
 import alayacare.testapp.ui.base.IView
 
-interface INote {
+interface IAddNote {
 
     interface View : IView {
-        fun showNotes(notes: ArrayList<Note>)
+        fun closeActivity()
     }
 
     interface Presenter : IPresenter<View> {
-        fun loadNotes()
+        fun addNote(note: String)
     }
 }
