@@ -21,6 +21,9 @@ The repo contains a skeleton Android application initially created using Android
 
 ### Instructions
 The goal of this exercise is to create a very simple note app by following the tasks below. 
+
+The exercise can be done in Java or Kotlin. If Kotlin is preferred, feel free to convert any or all of existing java classes to Kotlin and add any required dependencies.
+
 Try and have each commit represent a completed task. 
 Code should be clear, easy to read, and modular. 
 First fork this repository, then commit your changes and create a pull request when you're done (See [How to submit your work?](#how-to-submit-your-work)).
