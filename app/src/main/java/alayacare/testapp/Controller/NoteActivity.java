@@ -24,7 +24,6 @@ import alayacare.testapp.R;
 
 public class NoteActivity extends AppCompatActivity {
 
-    private NoteViewModel noteViewModel;
     private NoteItemAdapter noteListAdapter;
 
     private Observer<List<NoteModel>> observer = new Observer<List<NoteModel>>() {
@@ -39,6 +38,10 @@ public class NoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
+        // Observe live data change and update adapter
+        NoteViewModel noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
+        noteViewModel.getAllNotes().observe(this, observer);
+
         //When user clicks the add button, open create popup
         FloatingActionButton addButton = findViewById(R.id.add_button);
         addButton.setOnClickListener(new OnAddNoteClickListener(this, noteViewModel));
@@ -48,10 +51,6 @@ public class NoteActivity extends AppCompatActivity {
         noteListAdapter = new NoteItemAdapter(this, R.layout.note_list_item);
         noteListView.setAdapter(noteListAdapter);
         noteListView.setOnItemClickListener(new OnNoteItemClickListener(this, noteListAdapter, noteViewModel));
-
-        // Observe live data change and update adapter
-        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
-        noteViewModel.getAllNotes().observe(this, observer);
     }
 
     @Override
