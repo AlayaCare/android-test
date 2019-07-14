@@ -9,3 +9,5 @@ captures/
 .idea/dictionaries
 .idea/libraries
 *.iml
+
+\.idea/
