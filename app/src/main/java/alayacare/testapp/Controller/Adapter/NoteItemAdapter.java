@@ -26,6 +26,7 @@ public class NoteItemAdapter extends ArrayAdapter<NoteModel> {
 
     public NoteItemAdapter(@NonNull Context context, int resource) {
         super(context, resource);
+        this.context = context;
     }
 
     @NonNull
