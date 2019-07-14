@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -41,10 +42,19 @@ public class NoteActivity extends AppCompatActivity {
             }
         });
 
-        // Setup list view and its adapter
-        ListView noteListView = findViewById(R.id.note_list);
+        // Setup list view, its adapter and the click events for each item
+        final ListView noteListView = findViewById(R.id.note_list);
         noteListAdapter = new NoteItemAdapter(this, R.layout.note_list_item);
         noteListView.setAdapter(noteListAdapter);
+        noteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                NoteModel note = noteListAdapter.getNoteItem(i);
+                if(note != null) {
+                    openEditNotePopup(note);
+                }
+            }
+        });
 
         // Observe live data change and update adapter
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
@@ -111,4 +121,70 @@ public class NoteActivity extends AppCompatActivity {
 
         builder.show();
     }
+
+    /**
+     * Open popup with a text field filled out with note information to edit or delete it
+     */
+    private void openEditNotePopup(final NoteModel note) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Update Note");
+        final EditText input = new EditText(this);
+        input.setText(note.getText());
+        builder.setView(input);
+
+        // Save note when user finish editing
+        builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String noteText =  input.getText().toString();
+                if (!noteText.equals("")) {
+                    note.setText(noteText);
+                    noteViewModel.update(note);
+                }
+            }
+        });
+        // Open confirmation popup to delete note
+        builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                openDeleteNotePopup(note);
+            }
+        });
+        // Cancel operation and close popup
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    /**
+     * Open a confirmation popup to delete note
+     */
+    private void openDeleteNotePopup(final NoteModel note) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete Note");
+        builder.setMessage("Are you sure you want to delete this note? This operation is irreversible.");
+
+        // Open confirmation popup to delete note
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                noteViewModel.delete(note);
+            }
+        });
+        // Cancel operation and close popup
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
 }

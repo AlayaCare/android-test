@@ -107,6 +107,10 @@ public class NoteItemAdapter extends ArrayAdapter<NoteModel> {
         notifyDataSetChanged();
     }
 
+    public NoteModel getNoteItem(int i) {
+        return noteList.get(i);
+    }
+
     private class ViewHolder {
         TextView noteText;
         TextView noteDate;
