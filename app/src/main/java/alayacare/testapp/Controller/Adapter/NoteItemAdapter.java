@@ -1,4 +1,4 @@
-package alayacare.testapp.Controller;
+package alayacare.testapp.Controller.Adapter;
 
 import android.content.Context;
 import android.text.format.DateFormat;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -63,38 +62,7 @@ public class NoteItemAdapter extends ArrayAdapter<NoteModel> {
     @NonNull
     @Override
     public Filter getFilter() {
-        Filter filter = new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                FilterResults results = new FilterResults();
-                // If search term is empty, return the original full list
-                if (charSequence.equals("")) {
-                    results.values = NoteItemAdapter.this.originalNoteList;
-                    results.count = NoteItemAdapter.this.originalNoteList.size();
-                }
-                // Look in text for a match to the search term
-                else {
-                    List<NoteModel> resultNotes = new ArrayList<>();
-                    for (NoteModel note : NoteItemAdapter.this.originalNoteList) {
-                        // Return all notes that contain searched term
-                        if(note.getText().contains(charSequence)) {
-                            resultNotes.add(note);
-                        }
-                    }
-                    results.values = resultNotes;
-                    results.count = resultNotes.size();
-                }
-                return results;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                // Return found values and notify adapter
-                NoteItemAdapter.this.noteList = (List<NoteModel>) filterResults.values;
-                NoteItemAdapter.this.notifyDataSetChanged();
-            }
-        };
-        return filter;
+        return new NoteAdapterFilter(this);
     }
 
     /**
@@ -107,8 +75,16 @@ public class NoteItemAdapter extends ArrayAdapter<NoteModel> {
         notifyDataSetChanged();
     }
 
-    public NoteModel getNoteItem(int i) {
-        return noteList.get(i);
+    public List<NoteModel> getOriginalNoteList() {
+        return originalNoteList;
+    }
+
+    public List<NoteModel> getNoteList() {
+        return noteList;
+    }
+
+    public void setNoteList(List<NoteModel> noteList) {
+        this.noteList = noteList;
     }
 
     private class ViewHolder {

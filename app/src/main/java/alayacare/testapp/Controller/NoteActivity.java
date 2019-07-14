@@ -1,16 +1,11 @@
 package alayacare.testapp.Controller;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,6 +14,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import alayacare.testapp.Controller.Adapter.NoteItemAdapter;
+import alayacare.testapp.Controller.Listener.OnAddNoteClickListener;
+import alayacare.testapp.Controller.Listener.OnNoteItemClickListener;
+import alayacare.testapp.Controller.Listener.OnNoteQueryListener;
 import alayacare.testapp.Model.NoteModel;
 import alayacare.testapp.Persistence.NoteViewModel;
 import alayacare.testapp.R;
@@ -28,42 +27,31 @@ public class NoteActivity extends AppCompatActivity {
     private NoteViewModel noteViewModel;
     private NoteItemAdapter noteListAdapter;
 
+    private Observer<List<NoteModel>> observer = new Observer<List<NoteModel>>() {
+        @Override
+        public void onChanged(List<NoteModel> noteModels) {
+            noteListAdapter.setNotes(noteModels);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-        //Setup button click
+        //When user clicks the add button, open create popup
         FloatingActionButton addButton = findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openAddNotePopup();
-            }
-        });
+        addButton.setOnClickListener(new OnAddNoteClickListener(this, noteViewModel));
 
         // Setup list view, its adapter and the click events for each item
         final ListView noteListView = findViewById(R.id.note_list);
         noteListAdapter = new NoteItemAdapter(this, R.layout.note_list_item);
         noteListView.setAdapter(noteListAdapter);
-        noteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                NoteModel note = noteListAdapter.getNoteItem(i);
-                if(note != null) {
-                    openEditNotePopup(note);
-                }
-            }
-        });
+        noteListView.setOnItemClickListener(new OnNoteItemClickListener(this, noteListAdapter, noteViewModel));
 
         // Observe live data change and update adapter
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
-        noteViewModel.getAllNotes().observe(this, new Observer<List<NoteModel>>() {
-            @Override
-            public void onChanged(List<NoteModel> noteModels) {
-                noteListAdapter.setNotes(noteModels);
-            }
-        });
+        noteViewModel.getAllNotes().observe(this, observer);
     }
 
     @Override
@@ -77,114 +65,9 @@ public class NoteActivity extends AppCompatActivity {
         // Setup search view and query when search button is clicked
         SearchView mSearchView = (SearchView) menu.findItem(R.id.search).getActionView();
         mSearchView.setQueryHint("Search notes...");
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                // Filter for results as text is inputted
-                noteListAdapter.getFilter().filter(s);
-                return true;
-            }
-        });
+        mSearchView.setOnQueryTextListener(new OnNoteQueryListener(noteListAdapter));
         return true;
     }
 
-    /**
-     * Open popup with a text field in order to add new notes when button is clicked
-     */
-    private void openAddNotePopup() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Create New Note");
-        final EditText input = new EditText(this);
-        builder.setView(input);
-
-        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String noteText =  input.getText().toString();
-                if (!noteText.equals("")) {
-                    NoteModel note = new NoteModel(noteText);
-                    noteViewModel.insert(note);
-                }
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-    }
-
-    /**
-     * Open popup with a text field filled out with note information to edit or delete it
-     */
-    private void openEditNotePopup(final NoteModel note) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Update Note");
-        final EditText input = new EditText(this);
-        input.setText(note.getText());
-        builder.setView(input);
-
-        // Save note when user finish editing
-        builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String noteText =  input.getText().toString();
-                if (!noteText.equals("")) {
-                    note.setText(noteText);
-                    noteViewModel.update(note);
-                }
-            }
-        });
-        // Open confirmation popup to delete note
-        builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                openDeleteNotePopup(note);
-            }
-        });
-        // Cancel operation and close popup
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-    }
-
-    /**
-     * Open a confirmation popup to delete note
-     */
-    private void openDeleteNotePopup(final NoteModel note) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete Note");
-        builder.setMessage("Are you sure you want to delete this note? This operation is irreversible.");
-
-        // Open confirmation popup to delete note
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                noteViewModel.delete(note);
-            }
-        });
-        // Cancel operation and close popup
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-    }
 
 }
