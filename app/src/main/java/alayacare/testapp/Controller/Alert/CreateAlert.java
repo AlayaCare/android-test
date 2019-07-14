@@ -7,6 +7,7 @@ import android.widget.EditText;
 
 import alayacare.testapp.Model.NoteModel;
 import alayacare.testapp.Persistence.NoteViewModel;
+import alayacare.testapp.R;
 
 public class CreateAlert extends AlertDialog.Builder {
 
@@ -14,12 +15,12 @@ public class CreateAlert extends AlertDialog.Builder {
         super(context);
 
         // Setup popup view
-        setTitle("Create New Note");
+        setTitle(context.getString(R.string.new_note_title));
         final EditText input = new EditText(context);
         setView(input);
 
         // Create new note when user finishes editing
-        setPositiveButton("Create", new DialogInterface.OnClickListener() {
+        setPositiveButton(context.getString(R.string.create), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String noteText =  input.getText().toString();
@@ -31,7 +32,7 @@ public class CreateAlert extends AlertDialog.Builder {
         });
 
         // Cancel operation and close popup
-        setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

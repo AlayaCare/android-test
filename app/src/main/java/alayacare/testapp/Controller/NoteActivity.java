@@ -63,7 +63,7 @@ public class NoteActivity extends AppCompatActivity {
 
         // Setup search view and query when search button is clicked
         SearchView mSearchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        mSearchView.setQueryHint("Search notes...");
+        mSearchView.setQueryHint(getString(R.string.search_hint));
         mSearchView.setOnQueryTextListener(new OnNoteQueryListener(noteListAdapter));
         return true;
     }

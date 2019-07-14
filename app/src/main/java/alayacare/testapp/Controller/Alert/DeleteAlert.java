@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 
 import alayacare.testapp.Model.NoteModel;
 import alayacare.testapp.Persistence.NoteViewModel;
+import alayacare.testapp.R;
 
 public class DeleteAlert extends AlertDialog.Builder {
 
@@ -13,11 +14,11 @@ public class DeleteAlert extends AlertDialog.Builder {
         super(context);
 
         // Setup popup view
-        setTitle("Delete Note");
-        setMessage("Are you sure you want to delete this note? This operation is irreversible.");
+        setTitle(context.getString(R.string.delete_note_title));
+        setMessage(context.getString(R.string.delete_note_message));
 
         // Open confirmation popup to delete note
-        setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        setPositiveButton(context.getString(R.string.delete), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 noteViewModel.delete(note);
@@ -25,7 +26,7 @@ public class DeleteAlert extends AlertDialog.Builder {
         });
 
         // Cancel operation and close popup
-        setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

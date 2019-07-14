@@ -13,7 +13,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Note"
+        android:text=""
         app:layout_constraintEnd_toStartOf="@+id/note_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:fontFamily="sans-serif-condensed"
-        android:text="Created Date"
+        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/note_date_label" />
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-condensed-light"
-        android:text="Created at:"
+        android:text="@string/created_at"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="@+id/note_date"
         app:layout_constraintHorizontal_bias="0.0"

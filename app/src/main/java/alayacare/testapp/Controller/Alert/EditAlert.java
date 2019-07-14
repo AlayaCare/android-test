@@ -7,6 +7,7 @@ import android.widget.EditText;
 
 import alayacare.testapp.Model.NoteModel;
 import alayacare.testapp.Persistence.NoteViewModel;
+import alayacare.testapp.R;
 
 public class EditAlert extends AlertDialog.Builder {
 
@@ -14,13 +15,13 @@ public class EditAlert extends AlertDialog.Builder {
         super(context);
 
         // Setup popup view
-        setTitle("Update Note");
+        setTitle(context.getString(R.string.update_note_title));
         final EditText input = new EditText(context);
         input.setText(note.getText());
         setView(input);
 
         // Save note when user finish editing
-        setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+        setPositiveButton(context.getString(R.string.edit), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String noteText =  input.getText().toString();
@@ -32,7 +33,7 @@ public class EditAlert extends AlertDialog.Builder {
         });
 
         // Open confirmation popup to delete note
-        setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+        setNeutralButton(context.getString(R.string.delete), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 DeleteAlert deleteAlert = new DeleteAlert(context, note, noteViewModel);
@@ -41,7 +42,7 @@ public class EditAlert extends AlertDialog.Builder {
         });
 
         // Cancel operation and close popup
-        setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

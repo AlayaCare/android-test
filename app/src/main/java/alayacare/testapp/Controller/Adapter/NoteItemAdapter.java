@@ -20,6 +20,7 @@ import alayacare.testapp.R;
 
 public class NoteItemAdapter extends ArrayAdapter<NoteModel> {
 
+    private Context context;
     private List<NoteModel> originalNoteList;
     private List<NoteModel> noteList;
 
@@ -46,7 +47,7 @@ public class NoteItemAdapter extends ArrayAdapter<NoteModel> {
 
         Date date = note.getDate();
         DateFormat format = new DateFormat();
-        String formatDate = format.format("dd/MM/yy", date).toString();
+        String formatDate = format.format(context.getString(R.string.date_format), date).toString();
         holder.noteDate.setText(formatDate);
 
         return convertView;
