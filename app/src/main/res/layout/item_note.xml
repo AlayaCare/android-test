@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:cardCornerRadius="2dp"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="alayacare.testapp.ui.home.NoteViewModel"/>
+    </data>
 
-    <TextView
-        android:padding="7dp"
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="2dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:text="Sample note"/>
+        android:layout_height="match_parent">
 
-</androidx.cardview.widget.CardView>
+        <TextView
+            android:padding="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:text="Sample note"/>
+
+    </androidx.cardview.widget.CardView>
+</layout>
