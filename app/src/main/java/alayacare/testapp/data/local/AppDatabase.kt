@@ -11,17 +11,8 @@ import androidx.room.TypeConverters
 
 @Database(entities = [Note::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
-abstract class ArchAppDatabase: RoomDatabase() {
+abstract class AppDatabase: RoomDatabase() {
 
     // DAO
     abstract fun noteDao(): NoteDao
-
-    companion object {
-        fun buildDatabase(context: Context) =
-                Room.databaseBuilder(
-                        context.applicationContext,
-                        ArchAppDatabase::class.java,
-                        "NoteApp.db")
-                        .build()
-    }
 }

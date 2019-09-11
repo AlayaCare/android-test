@@ -1,19 +1,22 @@
 package alayacare.testapp.data.local.dao
 
 import alayacare.testapp.data.model.Note
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
-abstract class NoteDao{
+abstract class NoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(notes: List<Note>)
+    abstract fun insert(notes: List<Note>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(note: Note)
+    abstract fun insert(note: Note)
 
-    @Query("SELECT * FROM Note ORDER BY time DESC")
-    abstract suspend fun getAll(): List<Note>
+    @Query("SELECT id, time, text FROM notes ORDER BY id desc")
+    abstract fun getAll(): List<Note>
+
+    @Query("SELECT id, time, text FROM notes WHERE text like :str ORDER BY id desc")
+    abstract fun search(str:String): List<Note>
+
+    @Delete
+    abstract fun delete(note:Note)
 }

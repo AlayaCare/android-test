@@ -1,5 +1,6 @@
 package alayacare.testapp
 
+import alayacare.testapp.di.appModule
 import alayacare.testapp.di.localModule
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
@@ -10,7 +11,7 @@ open class App: Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            modules(listOf(localModule))
+            modules(listOf(appModule , localModule))
         }
     }
 }
