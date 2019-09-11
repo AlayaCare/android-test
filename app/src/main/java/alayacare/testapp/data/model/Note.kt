@@ -8,7 +8,7 @@ import java.util.*
 data class Note (
         @PrimaryKey(autoGenerate = true)
         val id: Int = 0,
-        val time: Date,
+        val time: Date = Calendar.getInstance().time,
         val text: String){
         companion object {
                 const val randomText: String =

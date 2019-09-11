@@ -7,7 +7,14 @@ import alayacare.testapp.data.remote.NoteRemoteDataSource
 internal class NoteRepository(
         private val noteDataSource: NoteLocalDataSource,
         private val noteRemoteDataSource: NoteRemoteDataSource) {
-    fun getAll(): List<Note> = noteDataSource.getNotes()
+
+    fun getAll(filter: String? = null): List<Note> = noteDataSource.getNotes(filter)
+
     fun addRandomNotes() = noteDataSource.insertNewRandom()
+
+    fun addNote(note:Note) = noteDataSource.insertNote(note)
+
+    fun removeNote(note:Note) = noteDataSource.removeNote(note)
+
     fun getFromFakeApi(): List<Note> = noteRemoteDataSource.getNotes()
 }

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class NoteListAdapter: RecyclerView.Adapter<NoteListAdapter.ViewHolder>() {
     private val noteList: MutableList<Note> = mutableListOf()
-    var onItemClickListener: View.OnClickListener? = null
+    private var onRemoveCallback: (note:Note) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemNoteBinding =
@@ -26,8 +26,8 @@ class NoteListAdapter: RecyclerView.Adapter<NoteListAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = noteList.size
 
-    fun setItemClickListener(onclick: View.OnClickListener) {
-        onItemClickListener = onclick
+    fun setItemClickListener(onRemove: (note:Note) -> Unit) {
+        onRemoveCallback = onRemove
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -45,11 +45,11 @@ class NoteListAdapter: RecyclerView.Adapter<NoteListAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: ItemNoteBinding) : RecyclerView.ViewHolder(binding.root) {
         private val viewModel = NoteViewModel()
 
-        fun bind(video: Note) {
-            viewModel.noteLive.value = video
+        fun bind(note: Note) {
+            viewModel.noteLive.value = note
             binding.viewModel = viewModel
-            binding.root.tag = video
-            binding.root.setOnClickListener(onItemClickListener)
+            binding.root.tag = note
+            binding.exit.setOnClickListener{onRemoveCallback(note)}
         }
     }
 

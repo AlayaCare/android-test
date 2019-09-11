@@ -12,10 +12,30 @@ internal class HomeViewModel(private val repository: NoteRepository) : BaseViewM
 
     val notes = MutableLiveData<List<Note>>()
 
-    fun loadNotes(addMore: Boolean = false) = viewModelScope.launch(Dispatchers.IO) {
-        if (notes.value.isNullOrEmpty() || addMore)
-            repository.addRandomNotes()
-
-        notes.postValue(repository.getAll())
+    fun loadNotes() = viewModelScope.launch(Dispatchers.IO) {
+        val items = repository.getAll()
+        when {
+            (items.isEmpty()) -> {
+                // add some fake rows in case the db is empty
+                repository.addRandomNotes()
+                notes.postValue(repository.getAll())
+            }
+            else -> notes.postValue(items)
+        }
     }
+
+    fun addNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
+        repository.addNote(note)
+        loadNotes()
+    }
+
+    fun removeNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
+        repository.removeNote(note)
+        loadNotes()
+    }
+
+    fun search(string: String) = viewModelScope.launch(Dispatchers.IO) {
+        notes.postValue(repository.getAll(string))
+    }
+
 }

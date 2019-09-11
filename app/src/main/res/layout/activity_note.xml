@@ -48,6 +48,7 @@
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/searchText"
                     android:background="@android:color/transparent"
                     android:textColor="@android:color/white"
                     android:textColorHint="@color/hint_color"
