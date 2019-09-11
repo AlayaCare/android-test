@@ -1,15 +1,9 @@
 package alayacare.testapp.data.remote
 
 import alayacare.testapp.data.model.Note
-import alayacare.testapp.ext.randomSecondsFromNow
 
-class NoteRemoteDataSource{
-
-    fun fetchNotesAsync(): List<Note> {
-        val list = ArrayList<Note>()
-        (1..50).map {list.add(Note(1000L.randomSecondsFromNow(), randomText(it))) }
-        return list
+internal class NoteRemoteDataSource(private val api: FakeApi) {
+    fun getNotes(): List<Note> {
+        return api.getAll()
     }
-
-    private fun randomText(i:Int): String = "Note sample text. number $i"
 }

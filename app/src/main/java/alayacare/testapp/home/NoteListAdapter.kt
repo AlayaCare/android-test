@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 class NoteListAdapter: RecyclerView.Adapter<NoteListAdapter.ViewHolder>() {
@@ -33,12 +34,12 @@ class NoteListAdapter: RecyclerView.Adapter<NoteListAdapter.ViewHolder>() {
         holder.bind(noteList[position])
     }
 
-
-    fun updateNoteList(notes: List<Note>) {
-        for (item in notes)
-            this.noteList.add(item)
-
-        notifyDataSetChanged()
+    fun updateNoteList(newNotes: List<Note>) {
+        val diffCallback = NoteDiffCallback(noteList, newNotes)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        noteList.clear()
+        noteList.addAll(newNotes)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     inner class ViewHolder(private val binding: ItemNoteBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -50,5 +51,19 @@ class NoteListAdapter: RecyclerView.Adapter<NoteListAdapter.ViewHolder>() {
             binding.root.tag = video
             binding.root.setOnClickListener(onItemClickListener)
         }
+    }
+
+    internal class NoteDiffCallback(private val oldList: List<Note>,
+                                    private val newList: List<Note>): DiffUtil.Callback() {
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition].id == newList[newItemPosition].id
+
+        override fun getOldListSize(): Int = oldList.size
+
+        override fun getNewListSize(): Int = newList.size
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition].id == newList[newItemPosition].id
     }
 }

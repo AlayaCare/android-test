@@ -4,6 +4,8 @@ import alayacare.testapp.R
 import alayacare.testapp.data.model.Note
 import alayacare.testapp.home.vm.HomeViewModel
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -24,26 +26,34 @@ class HomeActivity: AppCompatActivity(){
         binding.noteList.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        viewModel.notes.observe(this, Observer {onLoaded(it)})
+        viewModel.notes.observe(this, Observer {onNewData(it)})
 
         note_list.adapter = adapter
 
         binding.noteList.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val layoutManager : LinearLayoutManager = binding.noteList.layoutManager as LinearLayoutManager
+                val layoutManager = binding.noteList.layoutManager as LinearLayoutManager
                 if(layoutManager.findLastVisibleItemPosition() == layoutManager.itemCount-2){
-                    loadNotes()
+                    loadNotes(true)
                 }
                 super.onScrolled(recyclerView, dx, dy)
             }
         })
     }
 
-    private fun onLoaded(items: List<Note>) {
-        adapter.updateNoteList(items)
+    override fun onStart() {
+        super.onStart()
+        loadNotes()
     }
 
-    private fun loadNotes(){
-        viewModel.getNotesAsync()
+    private fun onNewData(items: List<Note>?) {
+        items ?: return
+        adapter.updateNoteList(items)
+        progress.visibility = GONE
+    }
+
+    private fun loadNotes(addMore: Boolean = false){
+        progress.visibility = VISIBLE
+        viewModel.loadNotes(addMore)
     }
 }
