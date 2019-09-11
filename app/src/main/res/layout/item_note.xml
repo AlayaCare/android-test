@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="alayacare.testapp.home.vm.NoteViewModel"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="2dp"
+        android:orientation="vertical"
+        app:cardUseCompatPadding="true"
+        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/exit"
+                android:text="@string/x"
+                android:paddingEnd="7dp"
+                android:paddingStart="7dp"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/text"
+            android:padding="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@{viewModel.noteLive.text}"
+            tools:text="Sample note"/>
+
+        <TextView
+            android:paddingEnd="7dp"
+            android:paddingStart="7dp"
+            android:paddingBottom="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.noteLive.time.toLocaleString()}"
+            tools:text="2019-05-14 18:45"
+            app:layout_constraintTop_toBottomOf="@+id/text"
+            android:textColor="@color/inactive_color"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
